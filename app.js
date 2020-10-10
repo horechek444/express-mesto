@@ -11,7 +11,7 @@ app.use('/', userRoutes);
 app.use('/', cardsRoutes);
 
 app.get('/:any', (req, res) => {
-  if ([req.params.any]) {
+  if (req.params.any) {
     res.status(404).send({ message: 'Запрашиваемый ресурс не найден' });
   }
 });
