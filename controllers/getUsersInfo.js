@@ -6,7 +6,7 @@ const jsonDataPath = path.join(__dirname, '..', 'data', 'users.json');
 const getUsers = (req, res) => {
   readFile(jsonDataPath)
     .then((data) => res.send(data))
-    .catch((err) => res.send(err));
+    .catch((err) => res.status(500).send({ message: `Произошла ошибка: ${err}` }));
 };
 
 const getUser = (req, res) => {
@@ -19,7 +19,7 @@ const getUser = (req, res) => {
       }
       res.send(user);
     })
-    .catch((err) => res.send(err));
+    .catch((err) => res.status(500).send({ message: `Произошла ошибка: ${err}` }));
 };
 
 module.exports = { getUsers, getUser };

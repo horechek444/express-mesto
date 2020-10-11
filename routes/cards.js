@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { getCards } = require('../controllers/getCardsInfo.js');
 
-router.get('/cards', getCards);
+router.get('/', getCards);
 
 module.exports = router;

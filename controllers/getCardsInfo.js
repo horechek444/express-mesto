@@ -6,7 +6,7 @@ const jsonDataPath = path.join(__dirname, '..', 'data', 'cards.json');
 const getCards = (req, res) => {
   readFile(jsonDataPath)
     .then((data) => res.send(data))
-    .catch((err) => res.send(err));
+    .catch((err) => res.status(500).send({ message: `Произошла ошибка: ${err}` }));
 };
 
 module.exports = { getCards };
