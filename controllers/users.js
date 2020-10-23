@@ -11,8 +11,7 @@ const getUsers = async (req, res) => {
 
 const getUser = async (req, res) => {
   try {
-    const { id } = req.params;
-    const user = await User.findOne({ id });
+    const user = await User.findOne({ id: req.params._id });
     if (!user) {
       res.status(404).send({ message: 'Нет пользователя с таким id' });
     }
@@ -29,7 +28,7 @@ const createUser = async (req, res) => {
     const user = await User.create({
       id, name, about, avatar,
     });
-    res.send({ data: user });
+    res.send(user);
   } catch (err) {
     res.status(500).send({ message: `Произошла ошибка: ${err}` });
   }
@@ -37,11 +36,10 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const id = req.user._id;
     const user = await User.findByIdAndUpdate(
-      id, {}, { new: true, runValidators: true, upsert: true },
+      { id: req.user._id }, {}, { new: true, runValidators: true, upsert: true },
     );
-    res.send({ data: user });
+    res.send(user);
   } catch (err) {
     res.status(500).send({ message: `Произошла ошибка: ${err}` });
   }
@@ -49,11 +47,10 @@ const updateUser = async (req, res) => {
 
 const updateAvatarUser = async (req, res) => {
   try {
-    const id = req.user._id;
     const avatar = await User.findByIdAndUpdate(
-      id, {}, { new: true, runValidators: true, upsert: true },
+      { id: req.user._id }, {}, { new: true, runValidators: true, upsert: true },
     );
-    res.send({ data: avatar });
+    res.send(avatar);
   } catch (err) {
     res.status(500).send({ message: `Произошла ошибка: ${err}` });
   }

@@ -20,6 +20,13 @@ mongoose.connect(mongoDbUrl, mongooseConnectOptions);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use((req, res, next) => {
+  req.user = {
+    _id: '5f9330c206245a0af5dd63ff',
+  };
+  next();
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/users', usersRoutes);
 app.use('/cards', cardsRoutes);
