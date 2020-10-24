@@ -11,7 +11,7 @@ const getUsers = async (req, res) => {
 
 const getUser = async (req, res) => {
   try {
-    const user = await User.findOne({ id: req.params._id });
+    const user = await User.findById(req.params.id);
     if (!user) {
       res.status(404).send({ message: 'Нет пользователя с таким id' });
     }
