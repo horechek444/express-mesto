@@ -11,12 +11,12 @@ const getCards = async (req, res) => {
 
 const createCard = async (req, res) => {
   try {
-    const id = Card.countDocuments();
     const { name, link } = req.body;
-    const user = await Card.create({
-      id, name, link,
+    const owner = req.user._id;
+    const card = await Card.create({
+      owner, name, link,
     });
-    res.send(user);
+    res.send(card);
   } catch (err) {
     res.status(500).send({ message: `Произошла ошибка: ${err}` });
   }
@@ -24,11 +24,7 @@ const createCard = async (req, res) => {
 
 const deleteCard = async (req, res) => {
   try {
-    const card = await Card.findByIdAndUpdate(
-      req.params.cardId,
-      { $pull: { likes: req.user._id } },
-      { new: true },
-    );
+    const card = await Card.findByIdAndRemove(req.params.id);
     res.send(card);
   } catch (err) {
     res.status(500).send({ message: `Произошла ошибка: ${err}` });
@@ -37,8 +33,8 @@ const deleteCard = async (req, res) => {
 
 const likeCard = async (req, res) => {
   try {
-    const card = await Card.findByIdAndRemove(
-      req.params.cardId,
+    const card = await Card.findByIdAndUpdate(
+      req.params.id,
       { $addToSet: { likes: req.user._id } },
       { new: true },
     );
@@ -51,7 +47,7 @@ const likeCard = async (req, res) => {
 const disLikeCard = async (req, res) => {
   try {
     const card = await Card.findByIdAndUpdate(
-      req.params.cardId,
+      req.params.id,
       { $pull: { likes: req.user._id } },
       { new: true },
     );

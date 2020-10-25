@@ -12,19 +12,21 @@ const cardSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator(v) {
-        return /https?:\/\/(w{3,3}\.)?\w+\S+#/.test(v);
+        return /https?:\/\/(w{3, 3}\.)?\w+\S+/.test(v);
       },
+      message: (props) => `ссылка ${props.value} невалидна`,
     },
   },
   owner: {
-    type: mongoose.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
     required: true,
   },
-  likes: {
-    type: mongoose.ObjectId,
+  likes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
     default: [],
-  },
+  }],
   createdAt: {
     type: Date,
     default: Date.now,

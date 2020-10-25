@@ -36,9 +36,10 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const user = await User.findByIdAndUpdate(
-      { id: req.user._id }, {}, { new: true, runValidators: true, upsert: true },
-    );
+    const user = await User.findByIdAndUpdate(req.user._id, {
+      name: req.body.name,
+      about: req.body.about,
+    }, { new: true });
     res.send(user);
   } catch (err) {
     res.status(500).send({ message: `Произошла ошибка: ${err}` });
@@ -47,9 +48,9 @@ const updateUser = async (req, res) => {
 
 const updateAvatarUser = async (req, res) => {
   try {
-    const avatar = await User.findByIdAndUpdate(
-      { id: req.user._id }, {}, { new: true, runValidators: true, upsert: true },
-    );
+    const avatar = await User.findByIdAndUpdate(req.user._id, {
+      avatar: req.body.avatar,
+    }, { new: true });
     res.send(avatar);
   } catch (err) {
     res.status(500).send({ message: `Произошла ошибка: ${err}` });

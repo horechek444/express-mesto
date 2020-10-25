@@ -1,6 +1,5 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const path = require('path');
 const bodyParser = require('body-parser');
 const usersRoutes = require('./routes/users.js');
 const cardsRoutes = require('./routes/cards.js');
@@ -17,9 +16,6 @@ const mongooseConnectOptions = {
 
 mongoose.connect(mongoDbUrl, mongooseConnectOptions);
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use((req, res, next) => {
   req.user = {
     _id: '5f9330c206245a0af5dd63ff',
@@ -27,7 +23,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use('/users', usersRoutes);
 app.use('/cards', cardsRoutes);
 

@@ -17,8 +17,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     validate: {
       validator(v) {
-        return /https?:\/\/w*\.?\w+\S+/.test(v);
+        return /https?:\/\/(w{3, 3}\.)?\w+\S+/.test(v);
       },
+      message: (props) => `ссылка ${props.value} невалидна`,
     },
   },
 });
