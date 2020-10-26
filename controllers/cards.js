@@ -1,11 +1,18 @@
 const Card = require('../models/card');
+const {
+  ERROR_CODE_USER, ERROR_CODE_SERVER, message400, message500,
+} = require('../utils/error_codes');
 
 const getCards = async (req, res) => {
   try {
     const cards = await Card.find({});
     res.send(cards);
   } catch (err) {
-    res.status(500).send({ message: `Произошла ошибка: ${err}` });
+    if (err.name === 'CastError') {
+      res.status(ERROR_CODE_USER).send({ message: message400 });
+    } else {
+      res.status(ERROR_CODE_SERVER).send({ message: message500 });
+    }
   }
 };
 
@@ -18,7 +25,11 @@ const createCard = async (req, res) => {
     });
     res.send(card);
   } catch (err) {
-    res.status(500).send({ message: `Произошла ошибка: ${err}` });
+    if (err.name === 'CastError' || err.name === 'ValidationError') {
+      res.status(ERROR_CODE_USER).send({ message: message400 });
+    } else {
+      res.status(ERROR_CODE_SERVER).send({ message: message500 });
+    }
   }
 };
 
@@ -27,7 +38,11 @@ const deleteCard = async (req, res) => {
     const card = await Card.findByIdAndRemove(req.params.id);
     res.send(card);
   } catch (err) {
-    res.status(500).send({ message: `Произошла ошибка: ${err}` });
+    if (err.name === 'CastError') {
+      res.status(ERROR_CODE_USER).send({ message: message400 });
+    } else {
+      res.status(ERROR_CODE_SERVER).send({ message: message500 });
+    }
   }
 };
 
@@ -40,7 +55,11 @@ const likeCard = async (req, res) => {
     );
     res.send(card);
   } catch (err) {
-    res.status(500).send({ message: `Произошла ошибка: ${err}` });
+    if (err.name === 'CastError') {
+      res.status(ERROR_CODE_USER).send({ message: message400 });
+    } else {
+      res.status(ERROR_CODE_SERVER).send({ message: message500 });
+    }
   }
 };
 
@@ -53,7 +72,11 @@ const disLikeCard = async (req, res) => {
     );
     res.send(card);
   } catch (err) {
-    res.status(500).send({ message: `Произошла ошибка: ${err}` });
+    if (err.name === 'CastError') {
+      res.status(ERROR_CODE_USER).send({ message: message400 });
+    } else {
+      res.status(ERROR_CODE_SERVER).send({ message: message500 });
+    }
   }
 };
 
