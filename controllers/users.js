@@ -54,7 +54,7 @@ const updateUser = async (req, res) => {
     const user = await User.findByIdAndUpdate(req.user._id, {
       name: req.body.name,
       about: req.body.about,
-    }, { new: true });
+    }, { runValidators: true, new: true });
     res.send(user);
   } catch (err) {
     if (err.name === 'CastError' || err.name === 'ValidationError') {
@@ -69,7 +69,7 @@ const updateAvatarUser = async (req, res) => {
   try {
     const avatar = await User.findByIdAndUpdate(req.user._id, {
       avatar: req.body.avatar,
-    }, { new: true });
+    }, { runValidators: true, new: true });
     res.send(avatar);
   } catch (err) {
     if (err.name === 'CastError' || err.name === 'ValidationError') {

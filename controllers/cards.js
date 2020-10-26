@@ -1,6 +1,6 @@
 const Card = require('../models/card');
 const {
-  ERROR_CODE_USER, ERROR_CODE_SERVER, message400, message500,
+  ERROR_CODE_USER, ERROR_CODE_BAD_REQUEST, ERROR_CODE_SERVER, message400, message500,
 } = require('../utils/error_codes');
 
 const getCards = async (req, res) => {
@@ -36,6 +36,9 @@ const createCard = async (req, res) => {
 const deleteCard = async (req, res) => {
   try {
     const card = await Card.findByIdAndRemove(req.params.id);
+    if (!card) {
+      res.status(ERROR_CODE_BAD_REQUEST).send({ message: 'Нет карточки с таким id' });
+    }
     res.send(card);
   } catch (err) {
     if (err.name === 'CastError') {
@@ -53,6 +56,9 @@ const likeCard = async (req, res) => {
       { $addToSet: { likes: req.user._id } },
       { new: true },
     );
+    if (!card) {
+      res.status(ERROR_CODE_BAD_REQUEST).send({ message: 'Нет карточки с таким id' });
+    }
     res.send(card);
   } catch (err) {
     if (err.name === 'CastError') {
@@ -70,6 +76,9 @@ const disLikeCard = async (req, res) => {
       { $pull: { likes: req.user._id } },
       { new: true },
     );
+    if (!card) {
+      res.status(ERROR_CODE_BAD_REQUEST).send({ message: 'Нет карточки с таким id' });
+    }
     res.send(card);
   } catch (err) {
     if (err.name === 'CastError') {
