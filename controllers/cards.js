@@ -25,8 +25,10 @@ const createCard = async (req, res) => {
     });
     res.send(card);
   } catch (err) {
-    if (err.name === 'CastError' || err.name === 'ValidationError') {
+    if (err.name === 'CastError') {
       res.status(ERROR_CODE_USER).send({ message: message400 });
+    } else if (err.name === 'ValidationError') {
+      res.status(ERROR_CODE_USER).send({ message: err.message });
     } else {
       res.status(ERROR_CODE_SERVER).send({ message: message500 });
     }

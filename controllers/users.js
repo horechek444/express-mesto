@@ -41,8 +41,10 @@ const createUser = async (req, res) => {
     });
     res.send(user);
   } catch (err) {
-    if (err.name === 'CastError' || err.name === 'ValidationError') {
+    if (err.name === 'CastError') {
       res.status(ERROR_CODE_USER).send({ message: message400 });
+    } else if (err.name === 'ValidationError') {
+      res.status(ERROR_CODE_USER).send({ message: err.message });
     } else {
       res.status(ERROR_CODE_SERVER).send({ message: message500 });
     }
@@ -57,8 +59,10 @@ const updateUser = async (req, res) => {
     }, { runValidators: true, new: true });
     res.send(user);
   } catch (err) {
-    if (err.name === 'CastError' || err.name === 'ValidationError') {
+    if (err.name === 'CastError') {
       res.status(ERROR_CODE_USER).send({ message: message400 });
+    } else if (err.name === 'ValidationError') {
+      res.status(ERROR_CODE_USER).send({ message: err.message });
     } else {
       res.status(ERROR_CODE_SERVER).send({ message: message500 });
     }
@@ -72,8 +76,10 @@ const updateAvatarUser = async (req, res) => {
     }, { runValidators: true, new: true });
     res.send(avatar);
   } catch (err) {
-    if (err.name === 'CastError' || err.name === 'ValidationError') {
+    if (err.name === 'CastError') {
       res.status(ERROR_CODE_USER).send({ message: message400 });
+    } else if (err.name === 'ValidationError') {
+      res.status(ERROR_CODE_USER).send({ message: err.message });
     } else {
       res.status(ERROR_CODE_SERVER).send({ message: message500 });
     }
