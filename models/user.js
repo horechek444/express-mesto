@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     validate: {
       validator(v) {
-        return /https?:\/\/(w{3,3}\.)?\S+(\.ru|com|рф)(\S*)?(\.\w{2,4})?#?/gi.test(v);
+        return /^https?:\/\/(www\.)?[\w-.~:\/?#\[\]@!$&'()*+,;=]+#?$/gi.test(v);
       },
       message: (props) => `ссылка для аватара ${props.value} невалидна`,
     },
