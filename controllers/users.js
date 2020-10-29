@@ -21,8 +21,9 @@ const getUser = async (req, res) => {
     const user = await User.findById(req.params.id);
     if (!user) {
       res.status(ERROR_CODE_BAD_REQUEST).send({ message: 'Нет пользователя с таким id' });
+    } else {
+      res.send(user);
     }
-    res.send(user);
   } catch (err) {
     if (err.name === 'CastError') {
       res.status(ERROR_CODE_USER).send({ message: message400 });

@@ -40,8 +40,9 @@ const deleteCard = async (req, res) => {
     const card = await Card.findByIdAndRemove(req.params.id);
     if (!card) {
       res.status(ERROR_CODE_BAD_REQUEST).send({ message: 'Нет карточки с таким id' });
+    } else {
+      res.send(card);
     }
-    res.send(card);
   } catch (err) {
     if (err.name === 'CastError') {
       res.status(ERROR_CODE_USER).send({ message: message400 });
@@ -60,8 +61,9 @@ const likeCard = async (req, res) => {
     );
     if (!card) {
       res.status(ERROR_CODE_BAD_REQUEST).send({ message: 'Нет карточки с таким id' });
+    } else {
+      res.send(card);
     }
-    res.send(card);
   } catch (err) {
     if (err.name === 'CastError') {
       res.status(ERROR_CODE_USER).send({ message: message400 });
@@ -80,8 +82,9 @@ const disLikeCard = async (req, res) => {
     );
     if (!card) {
       res.status(ERROR_CODE_BAD_REQUEST).send({ message: 'Нет карточки с таким id' });
+    } else {
+      res.send(card);
     }
-    res.send(card);
   } catch (err) {
     if (err.name === 'CastError') {
       res.status(ERROR_CODE_USER).send({ message: message400 });
